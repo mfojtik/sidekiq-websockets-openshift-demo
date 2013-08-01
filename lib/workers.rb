@@ -15,6 +15,5 @@ Sidekiq.redis do |r|
   r.del  "queue:app_queue"
 end
 
-require_relative './workers/demo_worker'
-
-DemoWorker.perform_async
+require_relative './workers/subscriptions_worker'
+require_relative './workers/repo_worker'

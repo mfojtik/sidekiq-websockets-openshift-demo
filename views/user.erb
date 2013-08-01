@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <style type="text/css">
+      #wrapper > div {
+        float : left;
+        border : 1px solid #ccc;
+        padding : 5px;
+        margin : 5px;
+        width : 200px;
+      }
+    </style>
+  </head>
+<body>
+  <div id="wrapper">
+  </div>
+</body>
+    <script language="javascript" type="text/javascript">
+
+      var Socket = window.MozWebSocket || window.WebSocket,
+      socket = new Socket('ws://' + location.hostname + ':' + '8000' + '/?user=<%=params[:user]%>&token=<%=session[:access_token]%>')
+
+      socket.addEventListener('open', function() {
+        console.log('OPEN: ' + socket.protocol);
+      });
+
+      socket.onerror = function(event) {
+        console.log('ERROR: ' + event.message);
+      };
+
+      socket.onmessage = function(event) {
+        var data = $.parseJSON(event.data)
+        if (data.c == "/users/<%=params[:user]%>/subscriptions") {
+          jQuery('<div/>', {id: data.m.name}).appendTo('#wrapper');
+        }
+        if (data.c == "/users/<%=params[:user]%>/repos") {
+          console.log(data.m.name);
+          $('#'+data.m.name).append(
+              '<strong>'+data.m.full_name+'</strong><br/><em>'+data.m.description+'</em>'
+          );
+        }
+      };
+
+      socket.onclose = function(event) {
+        console.log('CLOSE: ' + event.code + ', ' + event.reason);
+      };
+
+</script>
+</html>

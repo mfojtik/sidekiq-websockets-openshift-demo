@@ -1,11 +1,10 @@
-if ENV['OPENSHIFT_GEAR_UUID']
-  source 'http://mirror1.prod.rhcloud.com/mirror/ruby/'
-else
-  source 'https://rubygems.org'
-end
+source 'https://rubygems.org'
 
 gem 'sidekiq'
 gem 'json'
 gem "em-hiredis"
 gem "puma"
 gem "faye-websocket"
+gem "faraday"
+gem 'sinatra', :require => 'sinatra/base'
+gem 'pry'

@@ -1,5 +1,8 @@
 require 'sidekiq'
 require 'redis'
+require 'faraday'
+require 'json'
+require 'em-hiredis'
 
 # Initialize Redis hostname and port.
 #
